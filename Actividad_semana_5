@@ -1,0 +1,45 @@
+# -------------------------------
+# Ejercicio 1 - Menú de Usuarios
+# -------------------------------
+
+# Función para mostrar el menú
+def mostrar_menu():
+    print("\n--- MENÚ DE USUARIO ---")
+    print("1. Incluir usuario")
+    print("2. Mostrar usuarios")
+    print("3. Finalizar")
+
+# Función para agregar un usuario a la lista
+def agregar_usuario(lista_usuarios):
+    nombre = input("Ingrese el nombre del usuario: ")
+    lista_usuarios.append(nombre)
+    print(f"Usuario '{nombre}' agregado correctamente.")
+
+# Función para mostrar todos los usuarios almacenados
+def mostrar_usuarios(lista_usuarios):
+    if len(lista_usuarios) == 0:
+        print("No hay usuarios registrados.")
+    else:
+        print("\nLista de usuarios registrados:")
+        for i, usuario in enumerate(lista_usuarios, start=1):
+            print(f"{i}. {usuario}")
+
+# Función principal para controlar el programa
+def menu_principal():
+    usuarios = []  # Lista local (ámbito dentro de esta función)
+    while True:
+        mostrar_menu()
+        opcion = input("Seleccione una opción: ")
+
+        if opcion == "1":
+            agregar_usuario(usuarios)
+        elif opcion == "2":
+            mostrar_usuarios(usuarios)
+        elif opcion == "3":
+            print("Programa finalizado.")
+            break
+        else:
+            print("Opción no válida, intente de nuevo.")
+
+# Ejecutor del programa
+menu_principal()
