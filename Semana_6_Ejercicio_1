@@ -1,0 +1,38 @@
+# ---------------------------
+# Ejercicio 1: Lista de números, suma y promedio
+# ---------------------------
+
+def ingresar_numeros():
+    """Permite ingresar una lista de números desde teclado."""
+    numeros = []
+    while True:
+        n = input("Ingrese un número (o 'fin' para terminar): ")
+        if n.lower() == "fin":
+            break
+        try:
+            numeros.append(float(n))
+        except ValueError:
+            print("Entrada inválida, intente de nuevo.")
+    return numeros
+
+def calcular_suma(numeros):
+    """Calcula la suma de una lista de números."""
+    return sum(numeros)
+
+def calcular_promedio(numeros):
+    """Calcula el promedio de una lista de números."""
+    return sum(numeros) / len(numeros) if numeros else 0
+
+def main():
+    numeros = ingresar_numeros()
+    if numeros:
+        print(f"\nNúmeros ingresados: {numeros}")
+        print(f"Suma: {calcular_suma(numeros)}")
+        print(f"Promedio: {calcular_promedio(numeros)}")
+    else:
+        print("No se ingresaron números.")
+
+# ---------------------------
+# Ejecutar programa
+# ---------------------------
+main()
