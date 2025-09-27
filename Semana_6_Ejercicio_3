@@ -1,0 +1,152 @@
+# ---------------------------
+# Base de datos inicial
+# ---------------------------
+Base_datos_clientes = [
+    ("C001", "Ana Pérez", "ana.perez@email.com",
+     [("F1001", "2025-09-20", 1500.00, 3),
+      ("F1002", "2025-09-22", 2300.00, 5)]),
+
+    ("C002", "Luis Gómez", "luis.gomez@email.com",
+     [("F1003", "2025-09-21", 1200.00, 2)]),
+
+    ("C003", "María López", "maria.lopez@email.com", [])
+]
+
+# ---------------------------
+# Funciones principales
+# ---------------------------
+
+def buscar_cliente(codigo):
+    """Devuelve el índice del cliente en la lista o None si no existe."""
+    for i, cliente in enumerate(Base_datos_clientes):
+        if cliente[0] == codigo:
+            return i
+    return None
+
+def mostrar_clientes():
+    """Lista clientes y facturas asociadas."""
+    print("\n--- Clientes ---")
+    for c in Base_datos_clientes:
+        print(f"{c[0]} - {c[1]} ({c[2]})")
+        for f in c[3]:
+            print(f"   Factura: {f[0]}, Fecha: {f[1]}, Total: {f[2]}, Ítems: {f[3]}")
+    print("----------------\n")
+
+# ---------------------------
+# CRUD Clientes
+# ---------------------------
+
+def crear_cliente():
+    codigo = input("Código cliente: ")
+    nombre = input("Nombre: ")
+    email = input("Email: ")
+    Base_datos_clientes.append((codigo, nombre, email, []))
+    print("Cliente creado")
+
+def actualizar_cliente():
+    codigo = input("Código del cliente: ")
+    i = buscar_cliente(codigo)
+    if i is not None:
+        nombre = input("Nuevo nombre: ")
+        email = input("Nuevo email: ")
+        facturas = Base_datos_clientes[i][3]
+        Base_datos_clientes[i] = (codigo, nombre, email, facturas)
+        print("Cliente actualizado")
+    else:
+        print("Cliente no encontrado")
+
+def eliminar_cliente():
+    codigo = input("Código del cliente: ")
+    i = buscar_cliente(codigo)
+    if i is not None:
+        Base_datos_clientes.pop(i)
+        print("Cliente eliminado")
+    else:
+        print("Cliente no encontrado")
+
+# ---------------------------
+# CRUD Facturas
+# ---------------------------
+
+def crear_factura():
+    cod_cliente = input("Código cliente: ")
+    i = buscar_cliente(cod_cliente)
+    if i is not None:
+        cod_fact = input("Código factura: ")
+        fecha = input("Fecha: ")
+        total = float(input("Monto total: "))
+        items = int(input("Cantidad ítems: "))
+        facturas = Base_datos_clientes[i][3]
+        facturas.append((cod_fact, fecha, total, items))
+        cliente = Base_datos_clientes[i]
+        Base_datos_clientes[i] = (cliente[0], cliente[1], cliente[2], facturas)
+        print("Factura creada")
+    else:
+        print("Cliente no encontrado")
+
+def listar_facturas():
+    cod_cliente = input("Código cliente: ")
+    i = buscar_cliente(cod_cliente)
+    if i is not None:
+        cliente = Base_datos_clientes[i]
+        print(f"\nFacturas de {cliente[1]}:")
+        for f in cliente[3]:
+            print(f"  {f[0]} - {f[1]} - Total: {f[2]} - Ítems: {f[3]}")
+    else:
+        print("Cliente no encontrado")
+
+def eliminar_factura():
+    cod_cliente = input("Código cliente: ")
+    i = buscar_cliente(cod_cliente)
+    if i is not None:
+        cod_fact = input("Código factura: ")
+        cliente = Base_datos_clientes[i]
+        nuevas = [f for f in cliente[3] if f[0] != cod_fact]
+        Base_datos_clientes[i] = (cliente[0], cliente[1], cliente[2], nuevas)
+        print("Factura eliminada ✅")
+    else:
+        print("Cliente no encontrado")
+
+# ---------------------------
+# Menús
+# ---------------------------
+
+def menu_facturas():
+    while True:
+        print("\n--- Menú Facturas ---")
+        print("1. Crear factura")
+        print("2. Listar facturas")
+        print("3. Eliminar factura")
+        print("4. Volver")
+        op = input("Opción: ")
+        if op == "1": crear_factura()
+        elif op == "2": listar_facturas()
+        elif op == "3": eliminar_factura()
+        elif op == "4": break
+        else: print("Opción inválida")
+
+def menu_principal():
+    while True:
+        print("\n=== Menú Principal ===")
+        print("1. Crear cliente")
+        print("2. Actualizar cliente")
+        print("3. Eliminar cliente")
+        print("4. Mostrar clientes")
+        print("5. Gestionar facturas")
+        print("6. Salir")
+        op = input("Opción: ")
+        if op == "1": crear_cliente()
+        elif op == "2": actualizar_cliente()
+        elif op == "3": eliminar_cliente()
+        elif op == "4": mostrar_clientes()
+        elif op == "5": menu_facturas()
+        elif op == "6":
+            print("Saliendo...")
+            break
+        else:
+            print("Opción inválida")
+
+# ---------------------------
+# Ejecutar programa
+# ---------------------------
+menu_principal()
