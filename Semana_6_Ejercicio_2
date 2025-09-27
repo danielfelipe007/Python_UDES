@@ -1,0 +1,86 @@
+# ---------------------------
+# Ejercicio 2: Control de notas de un estudiante
+# ---------------------------
+
+# Estructura de almacenamiento:
+# Diccionario con materias y notas (p1, p2, p3)
+estudiante = {"nombre": "", "materias": {}}
+
+# ---------------------------
+# Funciones
+# ---------------------------
+
+def asignar_notas():
+    """Asigna notas de una materia al estudiante."""
+    if estudiante["nombre"] == "":
+        estudiante["nombre"] = input("Ingrese el nombre del estudiante: ")
+
+    materia = input("Ingrese nombre de la materia: ")
+    p1 = float(input("Nota P1: "))
+    p2 = float(input("Nota P2: "))
+    p3 = float(input("Nota P3: "))
+    estudiante["materias"][materia] = (p1, p2, p3)
+    print(f"Notas de {materia} asignadas.")
+
+def modificar_notas():
+    """Permite modificar notas de una materia existente."""
+    materia = input("Ingrese materia a modificar: ")
+    if materia in estudiante["materias"]:
+        p1 = float(input("Nueva nota P1: "))
+        p2 = float(input("Nueva nota P2: "))
+        p3 = float(input("Nueva nota P3: "))
+        estudiante["materias"][materia] = (p1, p2, p3)
+        print("Notas actualizadas.")
+    else:
+        print("Materia no encontrada.")
+
+def eliminar_materia():
+    """Elimina una materia del registro del estudiante."""
+    materia = input("Ingrese materia a eliminar: ")
+    if materia in estudiante["materias"]:
+        estudiante["materias"].pop(materia)
+        print(f"Materia {materia} eliminada.")
+    else:
+        print("Materia no encontrada.")
+
+def mostrar_info():
+    """Muestra la información del estudiante y sus notas."""
+    if estudiante["nombre"] == "":
+        print("No hay estudiante registrado aún.")
+    else:
+        print(f"\nEstudiante: {estudiante['nombre']}")
+        if estudiante["materias"]:
+            for mat, notas in estudiante["materias"].items():
+                print(f"  {mat} -> P1: {notas[0]}, P2: {notas[1]}, P3: {notas[2]}")
+        else:
+            print("Sin materias registradas.")
+
+# ---------------------------
+# Menú principal
+# ---------------------------
+
+def menu():
+    while True:
+        print("\n=== Menú Notas Estudiante ===")
+        print("1. Asignar notas")
+        print("2. Modificar notas")
+        print("3. Eliminar materia")
+        print("4. Mostrar estudiante y notas")
+        print("5. Salir")
+
+        opcion = input("Seleccione una opción: ")
+
+        if opcion == "1": asignar_notas()
+        elif opcion == "2": modificar_notas()
+        elif opcion == "3": eliminar_materia()
+        elif opcion == "4": mostrar_info()
+        elif opcion == "5":
+            print("Saliendo...")
+            break
+        else:
+            print("Opción inválida.")
+
+# ---------------------------
+# Ejecutar programa
+# ---------------------------
+menu()
